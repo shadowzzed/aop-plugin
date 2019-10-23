@@ -1,6 +1,7 @@
 package com.zed.aopplugin;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConstentConfig {
 
-//    @Value("${aop.config.filepath}")
-    public static final String FILEPATH = "D:\\workspace-commons\\logs\\test.txt";
+    public static String FILEPATH = "D:\\workspace-commons\\logs\\test.txt";
 
 }
