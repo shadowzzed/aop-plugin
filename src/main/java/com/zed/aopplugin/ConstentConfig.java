@@ -13,4 +13,7 @@ public class ConstentConfig {
 
     public static String FILEPATH = "D:\\workspace-commons\\logs\\test.txt";
 
+    @Value("${pointcut.package}")
+    public String pointcut;
+
 }

@@ -4,6 +4,7 @@ import com.zed.aopplugin.ConstentConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.support.DynamicMethodMatcherPointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -20,19 +21,9 @@ import java.util.List;
 @Slf4j
 public class MyDynamicPointcut extends DynamicMethodMatcherPointcut {
 
-    private static List<String> list = new ArrayList<>(10);
+    @Autowired
+    ConstentConfig config;
 
-    static {
-        try {
-            FileInputStream inputStream = new FileInputStream(ConstentConfig.FILEPATH);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String str = null;
-            if ((str = bufferedReader.readLine()) != null)
-                list.add(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     /**
      * 检查类
      * @return
@@ -40,14 +31,13 @@ public class MyDynamicPointcut extends DynamicMethodMatcherPointcut {
     @Override
     public ClassFilter getClassFilter() {
         return clazz -> {
-            log.info("正在检查 {}, list大小: {}" ,clazz.getName(),list.size());
-            for (String str: list) {
-                log.info("当前正在匹配" + str);
-                if (clazz.getName().contains(str)) {
-                    System.out.println(str);
+            log.info("正在检查 {}, 切点 {}" ,clazz.getName(),config.pointcut);
+            int index = config.pointcut.length();
+            //判断是不是想要的切点 判断指定包后一位是不是. 这样可以防止run run1同时拦截的情况 也可以拦截子目录比如 run.run1.run2
+            if (clazz.getName().charAt(index) == '.') {
+                    log.info("通过的类：{}", clazz.getName());
                     return true;
                 }
-            }
             return false;
         };
     }
