@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @author Zeluo
  * @date 2019/10/22 11:40
  */
-@Component
+//@Component
 public class Run2 {
 
     @Scheduled(fixedDelay = 5000)
